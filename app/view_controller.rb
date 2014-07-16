@@ -1,40 +1,16 @@
 class ViewController < UIViewController
-
   def loadView
-    bounds = UIScreen.mainScreen.bounds
-    self.view = SKView.alloc.initWithFrame(bounds)
+    self.view = SKView.alloc.init
   end
-
-  def viewDidLoad
+  # http://blog.timgaleckas.com/landscape-sprite-kit-rubymotion/
+  def viewWillLayoutSubviews
     super
-
-    # Configure the view.
-    sk_view = self.view
-    sk_view.showsFPS = true
-    sk_view.showsNodeCount = true
-
-    # Create and configure the scene.
-    scene = MyScene.sceneWithSize(sk_view.bounds.size)
-    scene.scaleMode = SKSceneScaleModeAspectFill
-
-    # Present the scene.
-    sk_view.presentScene(scene)
-  end
-
-  def shouldAutorotate
-    true
-  end
-
-  def supportedInterfaceOrientations
-    if UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone
-      UIInterfaceOrientationMaskAllButUpsideDown
-    else
-      UIInterfaceOrientationMaskAll
+    unless self.view.scene
+      scene = MyScene.alloc.initWithSize(self.view.bounds.size)
+      self.view.presentScene scene
     end
   end
-
-  def didReceiveMemoryWarning
-    super
-    # Release any cached data, images, etc that aren't in use.
+  def shouldAutorotate
+    true
   end
 end
